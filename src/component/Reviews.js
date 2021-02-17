@@ -1,5 +1,6 @@
 import { Component } from "react";
-import Axios from "axios";
+
+import APImovie from "../servise/api";
 
 export default class Reviews extends Component {
   state = {
@@ -8,9 +9,7 @@ export default class Reviews extends Component {
 
   async componentDidMount() {
     const { moviesId } = this.props.match.params;
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${moviesId}/reviews?api_key=ccd9adf3aeff9b72683e2101789aada2`
-    );
+    const response = await APImovie.fethReviews(moviesId);
     this.setState({ reviews: response.data.results });
   }
 
@@ -29,6 +28,7 @@ export default class Reviews extends Component {
             ))}
           </ul>
         )}
+        {!reviews && "we don't have many reviews"}
       </>
     );
   }

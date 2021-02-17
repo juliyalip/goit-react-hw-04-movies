@@ -1,5 +1,6 @@
 import { Component } from "react";
-import Axios from "axios";
+
+import APImovie from "../servise/api";
 
 export default class Cast extends Component {
   state = {
@@ -8,9 +9,7 @@ export default class Cast extends Component {
 
   async componentDidMount() {
     const { moviesId } = this.props.match.params;
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${moviesId}/credits?api_key=ccd9adf3aeff9b72683e2101789aada2`
-    );
+    const response = await APImovie.fetchCast(moviesId);
     this.setState({ actors: response.data.cast.slice(0, 3) });
   }
 

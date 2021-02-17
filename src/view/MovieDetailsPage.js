@@ -1,7 +1,7 @@
 import { Component } from "react";
-import Axios from "axios";
 import { Link, Route } from "react-router-dom";
 
+import APImovies from "../servise/api";
 import Cast from "../component/Cast";
 import Reviews from "../component/Reviews";
 
@@ -18,9 +18,7 @@ class MovieDetailsPage extends Component {
   async componentDidMount() {
     const { moviesId } = this.props.match.params;
 
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${moviesId}?api_key=ccd9adf3aeff9b72683e2101789aada2`
-    );
+    const response = await APImovies.fetchDeitailMovie(moviesId);
     console.log(response.data);
     this.setState({ ...response.data });
   }
@@ -68,12 +66,26 @@ class MovieDetailsPage extends Component {
         <ul>
           <li>
             <h3>
-              <Link to={`${this.props.match.url}/cast`}>Cast</Link>
+              <Link
+                to={{
+                  pathname: `${this.props.match.url}/cast`,
+                  state: { from: this.props.location },
+                }}
+              >
+                Cast
+              </Link>
             </h3>
           </li>
           <li>
             <h3>
-              <Link to={`${this.props.match.url}/reviews`}>Reviews</Link>
+              <Link
+                to={{
+                  pathname: `${this.props.match.url}/reviews`,
+                  state: { from: this.props.location },
+                }}
+              >
+                Reviews
+              </Link>
             </h3>
           </li>
         </ul>

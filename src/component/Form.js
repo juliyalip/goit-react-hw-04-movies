@@ -1,8 +1,14 @@
 import { Component } from "react";
+import PropTypes from "prop-types";
 
 export default class Form extends Component {
   state = {
     query: "",
+  };
+
+  static propTypes = {
+    hangleChange: PropTypes.func,
+    handleSubmit: PropTypes.func,
   };
 
   hangleChange = (e) => {

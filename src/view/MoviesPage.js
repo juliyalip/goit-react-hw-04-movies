@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
+import APImovie from "../servise/api";
 import getQueryParams from "../utils/getQueryParams";
 import Form from "../component/Form";
-import apiMovies from "../servise/api";
 
 class Movies extends Component {
   state = {
@@ -43,10 +43,7 @@ class Movies extends Component {
     if (prevQuery !== nextQuery) {
       this.setState({ loading: true });
 
-      axios
-        .get(
-          `https://api.themoviedb.org/3/search/movie?query=${nextQuery}&api_key=ccd9adf3aeff9b72683e2101789aada2`
-        )
+      APImovie.findMovies(nextQuery)
         .then((response) => this.setState({ movies: response.data.results }))
         .finally(() => {
           this.setState({ loading: false });
