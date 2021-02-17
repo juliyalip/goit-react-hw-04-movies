@@ -3,18 +3,38 @@ import Axios from "axios";
 
 export default class Cast extends Component {
   state = {
-    actors: null,
+    actors: [],
   };
 
   async componentDidMount() {
-    const { movieId } = this.props.match.params;
+    const { moviesId } = this.props.match.params;
     const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=ccd9adf3aeff9b72683e2101789aada2`
+      `https://api.themoviedb.org/3/movie/${moviesId}/credits?api_key=ccd9adf3aeff9b72683e2101789aada2`
     );
-    console.log(response.cast);
+    this.setState({ actors: response.data.cast.slice(0, 3) });
   }
 
   render() {
-    return <h1>Actors</h1>;
+    const { actors } = this.state;
+
+    return (
+      <>
+        {actors && (
+          <ul>
+            {actors.map(({ id, name, character, profile_path }) => (
+              <li key={id}>
+                <img
+                  src={`https://image.tmdb.org/t/p/original/${profile_path}`}
+                  alt={name}
+                  className="actors"
+                />
+                <p>{name}</p>
+                <p>character: {character}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </>
+    );
   }
 }

@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Link, Route } from "react-router-dom";
 
 import Cast from "../component/Cast";
+import Reviews from "../component/Reviews";
 
 class MovieDetailsPage extends Component {
   state = {
@@ -72,7 +73,7 @@ class MovieDetailsPage extends Component {
           </li>
           <li>
             <h3>
-              <Link to="">Reviews</Link>
+              <Link to={`${this.props.match.url}/reviews`}>Reviews</Link>
             </h3>
           </li>
         </ul>
@@ -81,6 +82,10 @@ class MovieDetailsPage extends Component {
         <Route
           path={`${this.props.match.path}/cast`}
           render={(props) => <Cast {...props} />}
+        />
+        <Route
+          path={`${this.props.match.path}/reviews`}
+          render={(props) => <Reviews {...props} />}
         />
       </>
     );
