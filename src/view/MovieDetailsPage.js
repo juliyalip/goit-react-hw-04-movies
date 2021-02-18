@@ -1,9 +1,19 @@
-import { Component } from "react";
+import { Component, Suspense, lazy } from "react";
 import { Link, Route } from "react-router-dom";
 
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 import APImovies from "../servise/api";
-import Cast from "../component/Cast";
-import Reviews from "../component/Reviews";
+//import Cast from "../component/Cast";
+//import Reviews from "../component/Reviews";
+
+const Cast = lazy(() =>
+  import("../component/Cast" /* webpackChunkName: "cast" */)
+);
+const Reviews = lazy(() =>
+  import("../component/Reviews" /* webpackChunkName: "reviews" */)
+);
 
 class MovieDetailsPage extends Component {
   state = {
@@ -91,14 +101,16 @@ class MovieDetailsPage extends Component {
         </ul>
         <hr></hr>
 
-        <Route
-          path={`${this.props.match.path}/cast`}
-          render={(props) => <Cast {...props} />}
-        />
-        <Route
-          path={`${this.props.match.path}/reviews`}
-          render={(props) => <Reviews {...props} />}
-        />
+        <Suspense fallback={<h1>ЗАГРУЖАЕМ МАРШРУТ...</h1>}>
+          <Route
+            path={`${this.props.match.path}/cast`}
+            render={(props) => <Cast {...props} />}
+          />
+          <Route
+            path={`${this.props.match.path}/reviews`}
+            render={(props) => <Reviews {...props} />}
+          />
+        </Suspense>
       </>
     );
   }
